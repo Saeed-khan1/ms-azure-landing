@@ -7,8 +7,8 @@ app.get('/', (req, res) => {
 })
 
 app.post('/notify', (req, res) => {
-    console.log("Request", req)
-    res.send('Hello World!')
+    console.log("Request Token:", req.query.token)
+    res.send('Sign up for your ziwo account!')
   })
 
 app.listen(port, () => {

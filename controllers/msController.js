@@ -1,4 +1,5 @@
 const msal = require('@azure/msal-node');
+const path = require('path');
 const port = process.env.PORT || 3000
 const config = {
     auth: {
@@ -48,7 +49,7 @@ class MsController {
 
         this.cca.acquireTokenByCode(tokenRequest).then((response) => {
             console.log("\nResponse: \n:", response);
-            res.sendFile(__dirname + '/views/complete.html');
+            res.sendFile(path.resolve('./views/complete.html'))
         }).catch((error) => {
             console.log(error);
             res.status(500).send(error);
@@ -58,7 +59,7 @@ class MsController {
 
     landing(req, res) {
         console.log("Request Token:", req.query.token)
-        res.sendFile(__dirname + '/views/landing.html')
+        res.sendFile(path.resolve('./views/landing.html'))
     }
 
     notify(req, res) {

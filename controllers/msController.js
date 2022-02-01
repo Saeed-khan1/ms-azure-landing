@@ -1,5 +1,6 @@
 const msal = require('@azure/msal-node');
 const path = require('path');
+const Billing = require('../lib/billing')
 const port = process.env.PORT || 3000
 const config = {
     auth: {
@@ -21,6 +22,7 @@ const config = {
 class MsController {
 
     cca = null
+    billing = new Billing()
     constructor() {
         this.cca = new msal.ConfidentialClientApplication(config);
     }
@@ -54,6 +56,13 @@ class MsController {
             console.log(error);
             res.status(500).send(error);
         });
+    }
+
+    async saveToBilling(req, res) {
+        if (req.body) {
+            await this.billing.createCustomer(req.body.company, req.body.email)
+            res.sendFile(path.resolve('./views/success.html'))
+        } else res.send({ status: "bad request" })
     }
 
 
